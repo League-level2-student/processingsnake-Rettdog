@@ -1,34 +1,51 @@
 
 // 1. Follow the recipe instructions inside the Segment class.
-
-// The Segment class will be used to represent each part of the moving snake.
+//sorry i cant do that
+// The Segment class will be used to represent each part of the moving snake
 
 class Segment {
 
   //2. Create x and y member variables to hold the location of each segment.
-
+int x;
+int y;
   // 3. Add a constructor with parameters to initialize each variable.
-
+Segment(int x2,int y2){
+  x = x2;
+  y = y2;
+}
 
   // 4. Add getter and setter methods for both the x and y member variables.
+  int getx(){
+    return x;
+  }
+  int gety(){
+    return y;
+  }
+  void setx(int x){
+    this.x = x;
+  }
+   void sety(int y){
+    this.y = y;
+  }
 }
 
 
 // 5. Create (but do not initialize) a Segment variable to hold the head of the Snake
-
+Segment head;
 
 
 // 6. Create and initialize a String to hold the direction of your snake e.g. "up"
-
+String direction = "up";
 
 
 // 7. Create and initialize a variable to hold how many pieces of food the snake has eaten.
 // give it a value of 1 to start.
-
+int food =0;
 
 
 // 8. Create and initialize foodX and foodY variables to hold the location of the food.
-
+int foodX = ((int)random(50)*10);
+int foodY = ((int)random(50)*10);
 // (Hint: use the random method to set both the x and y to random locations within the screen size (500 by 500).)
 
 //int foodX = ((int)random(50)*10);
@@ -43,9 +60,10 @@ void setup() {
 
 
   // 10. initialize your head to a new segment.
-
+head = new Segment(100,100);
 
   // 11. Use the frameRate(int rate) method to set the rate to 20.
+  frameRate(20);
 }
 
 
@@ -55,19 +73,29 @@ void draw() {
 
 
   //12. Call the manageTail, drawFood, drawSnake, move, and collision methods.
+  manageTail();
+  drawFood();
+  drawSnake();
+  move();
+  collision();
 }
 
 
 // 13. Complete the drawFood method below. (Hint: each piece of food should be a 10 by 10 rectangle).
 
 void drawFood() {
+  rect(foodX,foodY,10,10);
+  foodX = ((int)random(50)*10);
+foodY = ((int)random(50)*10);
+  
+  
 }
 
 
 //14. Draw the snake head (use a 10 by 10 rectangle)
 
 void drawSnake() {
-
+rect(head.getx(),head.gety(),10,10);
 
   //test your code
 }
@@ -79,31 +107,43 @@ void move() {
 
   // 16. Using a switch statement, make your snake head move by 10 pixels in the correct direction.
   //This is an incomplete switch statement:
-  /*
-  switch(dir) {
+  
+  switch(direction) {
   case "up":
-    // move head up here 
+    head.sety(head.gety()-10);
     break;
   case "down":
-    // move head down here 
+    head.sety(head.gety()+10); 
     break;
   case "left":
-   // figure it out 
+   head.setx(head.getx()-10);
     break;
   case "right":
-    // mystery code goes here 
+    head.setx(head.getx()+10);
     break;
   }
-  */
+  
 
 
   // 17. Call the checkBoundaries method to make sure the snake head doesn't go off the screen.
+  checkBoundaries();
 }
 
 
 // 18. Complete the keyPressed method below. Use if statements to set your direction variable depending on what key is pressed.
 
 void keyPressed() {
+  println(keyCode);
+  if(keyCode==38){
+    direction="up";
+  }else if(keyCode==40){
+    direction="down";
+  }else if(keyCode==37){
+    direction="left";
+  }
+  else if(keyCode==39){
+    direction="right";
+  }
 }
 
 
@@ -111,6 +151,18 @@ void keyPressed() {
 // 19. check if your head is out of bounds (teleport your snake head to the other side).
 
 void checkBoundaries() {
+  if(head.getx()>500){
+    head.setx(0);
+  }
+  if(head.gety()>500){
+    head.sety(0);
+  }
+  if(head.getx()<0){
+    head.setx(500);
+  }
+  if(head.gety()<0){
+    head.sety(500);
+  }
 }
 
 
